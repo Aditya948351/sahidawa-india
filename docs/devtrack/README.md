@@ -20,3 +20,4 @@
 *To manually trigger documentation for a past PR, use the `workflow_dispatch` input in the Actions tab.*
 | [#91](https://github.com/RatLoopz/sahidawa-india/pull/91) | 2026-05-13 | DevOps | 40 | @app/dependabot | [View Doc](devtrack/2026-05/PR-91-chore-deps-bump-the-actions-group-with-7-updates.md) / [ADR](devtrack/adr/ADR-001-chore-deps-bump-the-actions-group-with-7-updates.md) |
 | [#223](https://github.com/RatLoopz/sahidawa-india/pull/223) | 2026-05-18 | Frontend | 23 | @shashank03-dev | [View Doc](devtrack/2026-05/PR-223-feat-map-dual-layer-verified-pharmacy-map-integrat.md) / [ADR](devtrack/adr/ADR-001-feat-map-dual-layer-verified-pharmacy-map-integrat.md) |
+| [#232](https://github.com/RatLoopz/sahidawa-india/pull/232) | 2026-05-18 | DevOps | 11 | @harshitsaxena214 | [View Doc](devtrack/2026-05/PR-232-refactor-optimize-docker-compose-with-build-cachin.md) |
