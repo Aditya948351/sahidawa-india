@@ -66,7 +66,7 @@ describe("voice streaming helper", () => {
             socketFactory: () => socket,
         });
 
-        socket.onclose?.(new Event("close"));
+        socket.onclose?.({} as CloseEvent);
 
         expect(onFallback).toHaveBeenCalledTimes(1);
     });
