@@ -17,16 +17,6 @@ const nextConfig = {
     ],
   },
   serverExternalPackages: ['@supabase/ssr', '@supabase/supabase-js'],
-  
-  // Turbopack configuration (if you want to use Turbopack instead of Webpack)
-  experimental: {
-    turbo: {
-      // Exclude problematic packages from Turbopack
-      resolveAlias: {
-        // Add any problematic packages here if needed
-      },
-    },
-  },
 };
 
 export default withNextIntl(nextConfig);

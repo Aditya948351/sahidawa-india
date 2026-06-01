@@ -131,18 +131,21 @@ export default function Footer() {
                             Connect With Us
                         </h3>
                         <div className="mb-4 flex items-center gap-2">
-                            {socialLinks.map((social) => (
-                                <a
-                                    key={social.label}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label={social.label}
-                                    className={`group flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300 bg-white/50 text-slate-600 transition-all hover:scale-105 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-400 ${social.hoverColor}`}
-                                >
-                                    <social.icon className="h-4 w-4" />
-                                </a>
-                            ))}
+                            {socialLinks.map((social) => {
+                                const IconComponent = social.icon;
+                                return (
+                                    <a
+                                        key={social.label}
+                                        href={social.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label={social.label}
+                                        className={`group flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300 bg-white/50 text-slate-600 transition-all hover:scale-105 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-400 ${social.hoverColor}`}
+                                    >
+                                        <IconComponent size={16} />
+                                    </a>
+                                );
+                            })}
                         </div>
                         <a
                             href="mailto:contact@sahidawa.in"
