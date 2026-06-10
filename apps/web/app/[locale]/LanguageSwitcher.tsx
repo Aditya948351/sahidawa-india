@@ -7,11 +7,12 @@ import { useState, useRef, useEffect } from "react";
 
 const languages = [
     { code: "en", label: "English", native: "English" },
-    { code: "hi", label: "Hindi", native: "हिन्दी" },
+
     { code: "ta", label: "Tamil", native: "தமிழ்" },
     { code: "bn", label: "Bengali", native: "বাংলা" },
     { code: "te", label: "Telugu", native: "తెలుగు" },
     { code: "mr", label: "Marathi", native: "मराठी" },
+    { code: "hi", label: "Hindi", native: "हिन्दी" },
     { code: "gu", label: "Gujarati", native: "ગુજરાતી" },
     { code: "ur", label: "Urdu", native: "اردو" },
     { code: "or", label: "Odia", native: "ଓଡ଼ିଆ" },
@@ -146,7 +147,7 @@ export default function LanguageSwitcher() {
                     aria-activedescendant={`lang-option-${focusedIndex}`}
                     onKeyDown={handleListKeyDown}
                     tabIndex={-1}
-                    className="absolute right-0 z-50 mt-2 w-40 overflow-hidden rounded-2xl border border-(--color-border-muted) bg-(--color-surface-page) shadow-lg outline-none"
+                    className="absolute right-0 bottom-full z-[100] mb-2 max-h-60 w-40 overflow-y-auto rounded-2xl border border-(--color-border-muted) bg-(--color-surface-page) shadow-lg outline-none sm:top-full sm:bottom-auto sm:mt-2 sm:max-h-[400px]"
                 >
                     {languages.map((lang, index) => {
                         const isSelected = locale === lang.code;
