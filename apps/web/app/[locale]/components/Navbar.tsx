@@ -25,6 +25,8 @@ import type { FC } from "react";
 
 const desktopNavLinkClassName =
     "relative inline-flex items-center pb-1 transition-colors duration-200 ease-out hover:text-emerald-600 focus-visible:text-emerald-600 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 focus-visible:after:scale-x-100 motion-safe:after:will-change-transform";
+const activeDesktopNavLinkClassName =
+    "text-emerald-600 dark:text-emerald-400 after:scale-x-100 font-bold";
 
 const mobileNavLabelClassName =
     "relative inline-flex items-center pb-1 transition-colors duration-200 ease-out after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-current after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100 group-active:after:scale-x-100 group-focus-visible:after:scale-x-100 motion-safe:after:will-change-transform";
@@ -138,7 +140,9 @@ export default function Navbar() {
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
-
+    useEffect(() => {
+        setIsMenuOpen(false);
+    }, [pathname]);
     if (pathname === "/login" || pathname === "/health") {
         return null;
     }
@@ -149,13 +153,24 @@ export default function Navbar() {
         return pathname.startsWith(href);
     };
 
+    const desktopLinkClass = (href: string) =>
+        `${desktopNavLinkClassName} ${isActive(href) ? activeDesktopNavLinkClassName : ""}`;
+    <Link
+        href="/how-it-works"
+        onClick={() => setIsMenuOpen(false)}
+        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold transition-colors ${
+            isActive("/how-it-works")
+                ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
+                : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+        }`}
+    ></Link>;
     return (
         <>
             {/* ── Top Navigation ── */}
             <header className="sticky top-0 z-[100] w-full border-b border-white/30 bg-white/60 shadow-sm shadow-black/5 backdrop-blur-md dark:border-white/10 dark:bg-slate-900/60">
-                <div className="container mx-auto flex h-16 items-center justify-between gap-1 px-2 sm:gap-3 sm:px-4 md:px-6">
+                <div className="container mx-auto flex h-16 items-center justify-between gap-2 overflow-hidden px-2 sm:gap-3 sm:px-4 md:px-6">
                     {/* Left — Logo & Brand Title */}
-                    <div className="flex min-w-0 flex-1 items-center">
+                    <div className="flex min-w-0 shrink-0 items-center">
                         <Link href="/" className="flex min-w-0 items-center gap-1.5 sm:gap-2">
                             <Image
                                 src="/icons/sahidawa-logo.png"
@@ -177,41 +192,60 @@ export default function Navbar() {
                         className="ml-6 hidden items-center justify-center gap-6 text-sm font-semibold text-(--color-text-secondary) lg:flex"
                         aria-label="Main navigation"
                     >
-                        <Link href="/" className={desktopNavLinkClassName}>
+                        <Link
+                            href="/"
+                            className={desktopLinkClass("/")}
+                            aria-current={isActive("/") ? "page" : undefined}
+                        >
                             <Home size={14} className="mr-1 inline" />
                             {tNav("home")}
                         </Link>
-                        <Link href="/how-it-works" className={desktopNavLinkClassName}>
+                        <Link
+                            href="/how-it-works"
+                            className={desktopLinkClass("/how-it-works")}
+                            aria-current={isActive("/how-it-works") ? "page" : undefined}
+                        >
                             {tNav("how_it_works")}
                         </Link>
-                        <Link href="/alerts" className={desktopNavLinkClassName}>
+                        <Link
+                            href="/alerts"
+                            className={desktopLinkClass("/alerts")}
+                            aria-current={isActive("/alerts") ? "page" : undefined}
+                        >
                             {tNav("alerts")}
                         </Link>
-                        <Link href="/map" className={desktopNavLinkClassName}>
+                        <Link
+                            href="/map"
+                            className={desktopLinkClass("/map")}
+                            aria-current={isActive("/map") ? "page" : undefined}
+                        >
                             {tNav("pharmacy_map")}
                         </Link>
                         <Link
                             href="/scheme-eligibility"
-                            className={`${desktopNavLinkClassName} flex items-center gap-1`}
+                            className={`${desktopLinkClass("/scheme-eligibility")} flex items-center gap-1`}
+                            aria-current={isActive("/scheme-eligibility") ? "page" : undefined}
                         >
                             <ShieldCheck size={14} /> {tNav("scheme_eligibility")}
                         </Link>
                         <Link
                             href="/schedule"
-                            className={`${desktopNavLinkClassName} flex items-center gap-1`}
+                            className={`${desktopLinkClass("/schedule")} flex items-center gap-1`}
+                            aria-current={isActive("/schedule") ? "page" : undefined}
                         >
                             <Clock size={14} /> {tNav("schedule")}
                         </Link>
                         <Link
                             href="/reports/me"
-                            className={`${desktopNavLinkClassName} flex items-center gap-1`}
+                            className={`${desktopLinkClass("/reports/me")} flex items-center gap-1`}
+                            aria-current={isActive("/reports/me") ? "page" : undefined}
                         >
                             <History size={14} /> {tNav("my_reports")}
                         </Link>
                     </nav>
 
                     {/* Right — Action Controls Container */}
-                    <div className="flex min-w-0 flex-1 items-center justify-end gap-1 sm:gap-3">
+                    <div className="flex min-w-0 shrink-0 items-center justify-end gap-1 sm:gap-2">
                         {/* Health Companion Trigger */}
                         <div className="group relative flex items-center">
                             <Link
@@ -262,7 +296,11 @@ export default function Navbar() {
                                             <Link
                                                 href="/how-it-works"
                                                 onClick={() => setIsMenuOpen(false)}
-                                                className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold transition-colors ${
+                                                    isActive("/how-it-works")
+                                                        ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
+                                                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                }`}
                                             >
                                                 <HelpCircle size={14} />
                                                 {tNav("how_it_works")}
@@ -270,15 +308,20 @@ export default function Navbar() {
                                             <Link
                                                 href="/alerts"
                                                 onClick={() => setIsMenuOpen(false)}
-                                                className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
-                                            >
-                                                <Bell size={14} />
-                                                {tNav("alerts")}
-                                            </Link>
+                                                className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold transition-colors ${
+                                                    isActive("/how-it-works")
+                                                        ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
+                                                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                }`}
+                                            ></Link>
                                             <Link
                                                 href="/map"
                                                 onClick={() => setIsMenuOpen(false)}
-                                                className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold transition-colors ${
+                                                    isActive("/how-it-works")
+                                                        ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
+                                                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                }`}
                                             >
                                                 <MapPin size={14} />
                                                 {tNav("pharmacy_map")}
@@ -286,7 +329,11 @@ export default function Navbar() {
                                             <Link
                                                 href="/scheme-eligibility"
                                                 onClick={() => setIsMenuOpen(false)}
-                                                className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold transition-colors ${
+                                                    isActive("/how-it-works")
+                                                        ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
+                                                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                }`}
                                             >
                                                 <ShieldCheck size={14} />
                                                 {tNav("scheme_eligibility")}
@@ -294,14 +341,22 @@ export default function Navbar() {
                                             <Link
                                                 href="/reports/me"
                                                 onClick={() => setIsMenuOpen(false)}
-                                                className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold transition-colors ${
+                                                    isActive("/how-it-works")
+                                                        ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
+                                                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                }`}
                                             >
                                                 <History size={14} /> {tNav("my_reports")}
                                             </Link>
                                             <Link
                                                 href="/schedule"
                                                 onClick={() => setIsMenuOpen(false)}
-                                                className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-semibold transition-colors ${
+                                                    isActive("/how-it-works")
+                                                        ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
+                                                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                                }`}
                                             >
                                                 <Clock size={14} /> {tNav("schedule")}
                                             </Link>
@@ -333,6 +388,15 @@ export default function Navbar() {
                     </div>
                 </div>
             </header>
+
+            {/* Backdrop overlay for mobile menu */}
+            {isMenuOpen && (
+                <div
+                    className="fixed inset-0 z-[99] bg-black/20 backdrop-blur-[1px] sm:hidden"
+                    onClick={() => setIsMenuOpen(false)}
+                    aria-hidden="true"
+                />
+            )}
 
             {/* ── Mobile Bottom Navigation ── */}
             <nav
