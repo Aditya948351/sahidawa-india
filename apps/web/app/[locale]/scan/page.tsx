@@ -578,8 +578,14 @@ export default function ScanPage() {
                                     ? "bg-red-500 text-white hover:bg-red-400"
                                     : "bg-emerald-500 text-white hover:bg-emerald-400"
                             }`}
+                            aria-label={
+                                isCameraActive
+                                    ? "Stop barcode scanner camera"
+                                    : "Start barcode scanner camera"
+                            }
+                            aria-pressed={isCameraActive}
                         >
-                            <ScanLine size={18} />
+                            <ScanLine size={18} aria-hidden="true" />
                             {isCameraActive ? tScan("stopScanner") : tScan("ScanBarcode")}
                         </button>
                         <label
@@ -595,49 +601,13 @@ export default function ScanPage() {
                             className={`flex cursor-pointer items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-black shadow-lg transition-colors hover:bg-slate-200 ${
                                 isOffline ? "cursor-not-allowed opacity-50" : ""
                             }`}
+                            aria-label="Upload medicine photo from device (disabled while offline)"
+                            aria-disabled={isOffline}
                         >
-                            <Layers size={18} />
+                            <Layers size={18} aria-hidden="true" />
                             {tScan("uploadPhoto")}
                         </label>
                     </div>
-
-                <div className="flex gap-4">
-                    <button
-                        onClick={() => setIsCameraActive((prev) => !prev)}
-                        className={`flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold shadow-lg transition-colors focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-black focus:outline-none ${
-                            isCameraActive
-                                ? "bg-red-500 text-white hover:bg-red-400"
-                                : "bg-emerald-500 text-white hover:bg-emerald-400"
-                        }`}
-                        aria-label={
-                            isCameraActive
-                                ? "Stop barcode scanner camera"
-                                : "Start barcode scanner camera"
-                        }
-                        aria-pressed={isCameraActive}
-                    >
-                        <ScanLine size={18} aria-hidden="true" />
-                        {isCameraActive ? tScan("stopScanner") : tScan("scanBarcode")}
-                    </button>
-                    <label
-                        htmlFor={isOffline ? undefined : "medicine-upload"}
-                        onClick={(e) => {
-                            if (isOffline) {
-                                e.preventDefault();
-                                toast.error(
-                                    "You are currently offline. Please check your internet connection."
-                                );
-                            }
-                        }}
-                        className={`flex cursor-pointer items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-black shadow-lg transition-colors hover:bg-slate-200 ${
-                            isOffline ? "cursor-not-allowed opacity-50" : ""
-                        }`}
-                        aria-label="Upload medicine photo from device (disabled while offline)"
-                        aria-disabled={isOffline}
-                    >
-                        <Layers size={18} aria-hidden="true" />
-                        {tScan("uploadPhoto")}    
-                    </label>
                 </div>
             </div>
         </div>

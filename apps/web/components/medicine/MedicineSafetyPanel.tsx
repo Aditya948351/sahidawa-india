@@ -97,11 +97,6 @@ export function MedicineSafetyPanel({ searchQuery, onClose }: MedicineSafetyPane
         };
     }, [searchQuery]);
 
-    const t = useTranslations("medicineSafety");
-
-    const [activeTab, setActiveTab] = useState<TabType>("sideEffects");
-    const [ageGroup, setAgeGroup] = useState<AgeGroupKey>("adults");
-
     if (isLoading) {
         return (
             <div className="mt-4 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
